@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Explain in Diffusion: Explaining a Classifier with Diffusion Semantics">
+  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Explain in Diffusion: Explaining a Classifier with Diffusion Semantics</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <!-- <link rel="icon" href="./static/images/favicon.svg"> -->
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+<!-- 
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+ -->
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Explain in Diffusion: Explaining a Classifier with Diffusion Semantics</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/tahira-kazimi-b35811134/">Tahira Kazimi</a><sup>*</sup>,</span>
+            <span class="author-block">
+              <a href="https://www.linkedin.com/in/ritika-allada/">Ritika Allada</a><sup>*</sup>,</span>
+            <span class="author-block">
+              <a href="https://pinguar.org/">Pinar Yanardag</a><sup></sup>,
+            </span>
+            <!-- <span class="author-block">
+              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
+            </span>
+            <span class="author-block">
+              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
+            </span> -->
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Virginia Tech</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <!-- <span class="link-block">
+                <a href="https://arxiv.org/pdf/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span> -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <!-- <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span> -->
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code (Coming Soon)</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <!-- <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a> -->
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="./static/videos/teaser-7.gif" alt="Teaser GIF" style="width: 100%; height: auto;" />
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">DiffEx</span> explains the decisions of domain-specific classifiers by identifying the most influential attributes affecting their predictions. DiffEx leverages  a Vision-Language Model (VLM) to extract fine-grained domain-specific attributes, and a off-the-shelf image editing model to generate counterfactual examples. Classifier scores for each example are displayed in the top-left corner, demonstrating how classifier predictions change in response to the manipulation of different semantics (original images are shown with red borders). Our method works on various domains, including faces, fashion, and medical classifiers.
+      </h2>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            In this paper, we present a training-free, diffusion-based framework that explains classifier decisions and utilizes Vision-Language Models (VLMs) to generate detailed attributes for counterfactual editing. 
+            Central to our approach is DiffEx, an efficient search algorithm inspired by beam search, designed to identify and rank the most critical attributes influencing classifier decisions. 
+            Our framework constructs a comprehensive hierarchical semantic corpus using VLMs, enabling DiffEx to provide both broad and detailed explanations of classifier behavior. 
+            Our experiments demonstrate that DiffEx accurately identifies a wide range of significant features across diverse domains, 
+            including medical imaging, highlighting its scalability and versatility. 
+            By surpassing existing methods in both the diversity of domains explored and the number of impactful attributes identified,
+            our method establishes itself as a robust tool for generating interpretable insights into complex classifier decisions, 
+            particularly in high-stakes applications.
+          </p>
+        </div>
+      </div>
+    </div>
+</div></section>
+
+
+<section class="section hero">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-12">
+        <h2 class="title is-3">Method</h2>
+
+        <div class="content has-text-justified">
+          <!--
+          <p>
+           Explain method
+          </p>
+        -->
+          <div class="container">
+            <img src="./static/images/Framework-1.png">
+            <br>
+          </div>
+
+          <p>
+            Our pipeline processes a set of sample domain-specific images and a text prompt using a Vision-Language Model (VLM) to generate a hierarchical semantic corpus of attributes relevant to a specific domain. 
+            Based on this corpus, DiffEx identifies and ranks the most influential features affecting the classifier's decisions, 
+            sorting them from most to least impactful. The diagram illustrates this process, highlighting both unedited images and counterfactual examples annotated with confidence scores to demonstrate the changing influence of specific attributes on classifier predictions. 
+            This hierarchical approach provides a structured understanding of which features drive classifier outputs.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+      <h1 class="title is-3 has-text-centered">Hierarchical Structure for Top Facial Features</h1>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-12">
+
+        <div class="content has-text-justified">
+          <!--
+          <p>
+           Explain method
+          </p>
+        -->
+        <div class="container">
+          <img src="./static/images/FaceEditsFigure(5)(1)-1.png">
+          <br>
+        </div>
+        <p>
+          <b>Top-7 Discovered Facial Attributes for the Age Classifier</b> Our method effectively identifies key attributes and their top hierarchical subtypes for a perceived age classifier in the facial domain, using our proposed classifier-based search algorithm. 
+          For each attribute, the edited images and their respective subtypes are displayed in a hierarchical structure, outlined with a black border. 
+          The score for the young label is shown in the top-left corner of each image.
+        </p>
+
+          <!-- <div class="container">
+            <img src="./static/images/masks.png">
+            <br>
+          </div> -->
+          <!-- <p>
+              By combining the structure and content confidence priors, LayerFusion can enable harmonization across layers, where the composite masks can encode vital information such as transparency.
+          </p> -->
+      </div>
+    </div>
+  </div>
+</div></section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+      <h1 class="title is-3 has-text-centered">Cross Domain Results</h1>
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-12">
+
+        <div class="content has-text-justified">
+          <!--
+          <p>
+           Explain method
+          </p>
+        -->
+          <h4 class="title is-4 has-text-centered">Top Attributes for Bird Species and Retinal Diseases</h4>
+
+          <div class="container">
+            <img src="./static/images/eyes_birds_cropped-1.png">
+            <br>
+          </div>
+          <p class="has-text-centered">
+              <i>DiffEx</i> successfully discovered top attributes relevant to bird species and retinal diseases.
+          </p>
+
+          <h4 class="title is-4 has-text-centered">Top Attributes for Wildcats and Pet Dormains</h4>
+
+          <div class="container">
+            <img src="./static/images/dogs_wildcats_3.png">
+            <br>
+          </div>
+          <p class="has-text-centered">
+            <i>DiffEx</i> can be seamlessly applied to diverse domains, effectively extracting and ranking meaningful attributes relevant to specific classifiers.
+             The figure illustrates how <i>DiffEx</i> identifies the most impactful features across various novel domains,
+             providing insights into the key attributes influencing classifier decisions.
+          </p>
+
+          <h4 class="title is-4 has-text-centered">Top Attributes for Unique Domains</h4>
+
+          <div class="container">
+            <img src="./static/images/food-buildings-2-1.png">
+            <br>
+          </div>
+          <p class="has-text-centered">
+            <i>DiffEx</i> showcases the ability to identify more significant features across diverse domains compared to
+            existing methods.
+          </p>
+
+          <!-- <h4 class="title is-4 has-text-centered">Generations with Transparent Foregrounds</h4>
+
+          <div class="container">
+            <img src="./static/images/transparent.png">
+            <br>
+          </div>
+          <p class="has-text-centered">
+              During blending <i>LayerFusion</i> preserves the transparency of the foreground objects.
+          </p> -->
+      </div>
+    </div>
+  </div>
+</div></section>
+
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{KazimiAllada2024DiffEx,
+  author    = {Kazimi, Tahira and Ritika, Allada and Pinar, Yanardag},
+  title     = {Explain in Diffusion: Explaining a Classifier with Diffusion Semantics},
+  year      = {2024},
+  eprint={},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/}, 
+}</code></pre>
+  </div>
+</section>
+
+<!-- 
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer> -->
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered is-centered">
+      <a class="icon-link" href="https://github.com/TahiraKazimi" disabled="">
+        <svg class="svg-inline--fa fa-github fa-w-16" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" data-fa-i2svg=""><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg><!-- <i class="fab fa-github"></i> Font Awesome fontawesome.com -->
+      </a>
+    </div>
+    <div class="columns">
+      <div class="column is-8">
+        <div class="content has-text-justified">
+          <!-- <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p> -->
+          <p>This page is adapted from <a href="https://github.com/nerfies/nerfies.github.io">this</a> implementation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+</body>
+</html>
