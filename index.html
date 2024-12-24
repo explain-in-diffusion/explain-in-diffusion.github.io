@@ -179,7 +179,11 @@
     <div class="hero-body">
       <img src="./static/videos/teaser-7.gif" alt="Teaser GIF" style="width: 100%; height: auto;" />
       <h2 class="subtitle has-text-centered">
-        <span class="dnerf">DiffEx</span> explains the decisions of domain-specific classifiers by identifying the most influential attributes affecting their predictions. DiffEx leverages  a Vision-Language Model (VLM) to extract fine-grained domain-specific attributes, and a off-the-shelf image editing model to generate counterfactual examples. Classifier scores for each example are displayed in the top-left corner, demonstrating how classifier predictions change in response to the manipulation of different semantics (original images are shown with red borders). Our method works on various domains, including faces, fashion, and medical classifiers.
+        <span class="dnerf">DiffEx</span> explains the decisions of domain-specific classifiers by identifying the most influential semantics affecting their predictions. 
+        Classifier scores for each example are displayed in the top-left corner, 
+        demonstrating how classifier predictions change in response to the manipulation of different semantics (original images are shown with red borders). 
+        Our approach is capable of explaining classifiers that concentrate on individual concepts such as faces or animals (top row) as well as those that manage complex scenes involving multiple objects, 
+        such as a formal/casual fit in a fashion context.
       </h2>
     </div>
   </div>
@@ -195,14 +199,14 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            In this paper, we present a training-free, diffusion-based framework that explains classifier decisions and utilizes Vision-Language Models (VLMs) to generate detailed attributes for counterfactual editing. 
-            Central to our approach is DiffEx, an efficient search algorithm inspired by beam search, designed to identify and rank the most critical attributes influencing classifier decisions. 
-            Our framework constructs a comprehensive hierarchical semantic corpus using VLMs, enabling DiffEx to provide both broad and detailed explanations of classifier behavior. 
-            Our experiments demonstrate that DiffEx accurately identifies a wide range of significant features across diverse domains, 
-            including medical imaging, highlighting its scalability and versatility. 
-            By surpassing existing methods in both the diversity of domains explored and the number of impactful attributes identified,
-            our method establishes itself as a robust tool for generating interpretable insights into complex classifier decisions, 
-            particularly in high-stakes applications.
+            Classifiers are important components in many computer vision tasks, 
+            serving as the foundational backbone of a wide variety of models employed across diverse applications. 
+            However, understanding the decision-making process of classifiers remains a significant challenge. 
+             We propose DiffEx, a novel method that leverages the capabilities of text-to-image diffusion models to explain classifier decisions. 
+             Unlike traditional GAN-based explainability models, which are limited to simple, single-concept analyses and typically require training a new model for each classifier, 
+             our approach can explain classifiers that focus on single concepts (such as faces or animals) as well as those that handle complex scenes involving multiple concepts. 
+             DiffEx employs vision-language models to create a hierarchical list of semantics, allowing users to identify not only the overarching semantic influences on classifiers (e.g., the 'beard' semantic in a facial classifier) but also their sub-types, such as 'goatee' or 'Balbo' beard.  
+             Our experiments demonstrate that DiffEx is able to cover a significantly broader spectrum of semantics compared to its GAN counterparts, providing a hierarchical tool that delivers a more detailed and fine-grained understanding of classifier decisions.
           </p>
         </div>
       </div>
@@ -223,15 +227,16 @@
           </p>
         -->
           <div class="container">
-            <img src="./static/images/Framework-1.png">
+            <img src="./static/images/Framework (1)-1.png">
             <br>
           </div>
 
           <p>
-            Our pipeline processes a set of sample domain-specific images and a text prompt using a Vision-Language Model (VLM) to generate a hierarchical semantic corpus of attributes relevant to a specific domain. 
+            Our pipeline processes a set of sample domain-specific images and a text prompt using a VLM to generate a hierarchical semantic 
+            corpus of attributes relevant to a specific domain. 
             Based on this corpus, DiffEx identifies and ranks the most influential features affecting the classifier's decisions, 
-            sorting them from most to least impactful. The diagram illustrates this process, highlighting both unedited images and counterfactual examples annotated with confidence scores to demonstrate the changing influence of specific attributes on classifier predictions. 
-            This hierarchical approach provides a structured understanding of which features drive classifier outputs.
+            sorting them from most to least impactful (rightmost image). 
+            The hierarchical explanation of semantics (such as beard and its subtypes) provides a fine-grained understanding of which features drive classifier outputs.
           </p>
         </div>
       </div>
